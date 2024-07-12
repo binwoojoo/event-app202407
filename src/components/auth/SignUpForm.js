@@ -9,26 +9,31 @@ const SignUpForm = () => {
   const [step, setStep] = useState(1);
 
   // 단계가 성공적으로 완료되었는지
-  const [success, setSuccess] = useState(1);
+  const [success, setSuccess] = useState(false);
 
   // 이메일 중복 확인이 끝났을 때 호출될 함수
   const emailSuccessHandler = () => {
+
     setSuccess(true);
 
     setTimeout(() => {
-      
       setStep(2);
       setSuccess(false);
-      
     }, 1500);
+
   };
 
   return (
     <div className={styles.SignUpForm}>
       <div className={styles.formStepActive}>
-        {step === 1 && <EmailInput onSuccess={emailSuccessHandler} />}
 
-        {step === 2 && <VerificationInput />}
+        {/* {step === 1 && <EmailInput onSuccess={emailSuccessHandler} />}
+
+        {step === 2 && <VerificationInput />} */}
+
+        <VerificationInput />
+
+        {success && <ProgressBar />}
       </div>
     </div>
   );
