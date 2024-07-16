@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./EventForm.module.scss";
 import { useNavigate, Form, redirect } from "react-router-dom";
 import { EVENT_URL } from "../config/host-config";
+import { getUserToken } from "../config/auth";
 
 const EventForm = ({ method, event = {} }) => {
   const {
@@ -14,7 +15,6 @@ const EventForm = ({ method, event = {} }) => {
 
   // 날짜 형식을 변경 (yyyy-MM-dd)
   /**
-   *
    * @param date - yyyy년 MM월 dd일
    */
   const convertDateFormat = (date) => {
@@ -42,9 +42,10 @@ const EventForm = ({ method, event = {} }) => {
     navigate("..");
   };
 
+  // ================ action 함수에게 역할 위임 ================= //
   // const submitHandler = e => {
   //   e.preventDefault();
-  //   // console.log('form이 제출됨!');
+  //   // console.log('form이 제출됨');
 
   //   // input에 입력한 값 가져오기
   //   const formData = new FormData(e.target);
@@ -70,10 +71,11 @@ const EventForm = ({ method, event = {} }) => {
   //       body: JSON.stringify(payload)
   //     });
 
-  //     navigate('/events');
+  //     navigate('/events') // 새로고침 없이 목록으로 리다이렉트
   //   })();
   // };
 
+  
   // 2. action함수를 트리거하려면 일반 form을 사용하면 안되고
   // 3. react-router-dom에서 제공하는 Form이라는 컴포넌트를 사용한다.
   // 4. method 옵션을 설정한다.
@@ -136,14 +138,14 @@ const EventForm = ({ method, event = {} }) => {
 
 export default EventForm;
 
-// 서버에 갱신요청을 보내는 트리거함수
+// 서버에 갱신요청을 보내는 트리거 함수
 // App.js에서 router에 설정
 export const action = async ({ request, params }) => {
   // action 함수를 트리거하는 방법
   // 1. form이 있는 EventForm으로 이동
-  // console.log('action함수 call!');
+  // console.log('action함수 call');
 
-  // console.log('req: ', request);
+  console.log('req: ', request);
 
   const formData = await request.formData();
   // console.log(formData);
@@ -157,20 +159,22 @@ export const action = async ({ request, params }) => {
 
   // console.log(payload);
 
-  let url = `${EVENT_URL}/events`;
-  if (request.method === "PATCH") {
+  let url = EVENT_URL;
+  if (request.method === 'PATCH') {
     url += `/${params.eventId}`;
   }
 
-  console.log("info: ", { url, method: request.method });
+  console.log('info: ', { url, method: request.method });
 
   const response = await fetch(url, {
     method: request.method,
     headers: {
       "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + getUserToken()
     },
     body: JSON.stringify(payload),
   });
 
-  return redirect("/events");
+  return redirect('/events');
+  
 };
