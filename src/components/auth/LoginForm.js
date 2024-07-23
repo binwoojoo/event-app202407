@@ -10,13 +10,13 @@ const LoginForm = () => {
   return (
     <>
       <Form method="post" className={styles.form}>
-        <h1>Log in</h1>
+        <h1>로그인</h1>
         <p>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">이메일</label>
           <input id="email" type="email" name="email" required />
         </p>
         <p>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">비밀번호</label>
           <input id="password" type="password" name="password" required />
         </p>
         <div className={styles.actions}>
