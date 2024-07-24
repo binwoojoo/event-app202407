@@ -1,4 +1,4 @@
-const LOCAL_PORT = 8686; // 백엔드 로컬 서버 포트번호
+const LOCAL_PORT = 8989; // 백엔드 로컬 서버 포트번호
 
 // 예를들어 지금 요청하는 브라우저의 host가 http://localhost:3000 이라면
 // hostname은 localhost만 리턴
@@ -9,8 +9,8 @@ let backendHostName;
 
 if (clientHostName === "localhost") {
   backendHostName = "http://localhost:" + LOCAL_PORT;
-} else if (clientHostName === "www.bananagrape.co.kr") {
-  backendHostName = "https://api.myapi.com";
+} else if (clientHostName === "http://my-event-app4444.s3-website.ap-northeast-2.amazonaws.com/") {
+  backendHostName = "13.124.36.187";
 }
 
 const API_BASE_URL = backendHostName;
